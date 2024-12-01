@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>编辑教师</title>
+    <meta charset="UTF-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form div {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>编辑部门</h2>
+    <form th:action="@{/department/update}" method="post">
+            <div>
+            <label>部门编号:</label>
+            <input type="text" name="id" th:value="${department.id}" required/>
+          </div>
+
+        <div>
+            <label>部门名称:</label>
+            <input type="text" name="name" th:value="${department.getName()}" maxlength="10" required/>
+        </div>
+
+        <input type="hidden" name="number" th:value="${department.getNumber()}" maxlength="10"/>
+
+        <div>
+            <button type="submit">保存修改</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

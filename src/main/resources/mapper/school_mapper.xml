@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nowcoder.humanresources.dao.SchoolMapper">
+
+    <!-- 查询所有学籍经历信息（带分页） -->
+    <select id="getAllSchoolRecords" resultType="School">
+        SELECT * FROM School
+        ORDER BY id
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <!-- 根据工号查询学籍经历信息 -->
+    <select id="selectSchoolById" parameterType="String" resultType="School">
+        SELECT * FROM School WHERE id = #{id}
+    </select>
+
+
+
+    <!-- 添加学籍经历信息 -->
+    <insert id="insertSchoolRecord" parameterType="School">
+        INSERT INTO School (id, studentCode, name, primarySchool, juniorHigh, seniorHigh, undergraduate, graduate, doctorate)
+        VALUES (#{id}, #{studentCode}, #{name}, #{primarySchool}, #{juniorHigh}, #{seniorHigh}, #{undergraduate}, #{graduate}, #{doctorate})
+    </insert>
+
+
+    <!-- 根据工号删除学籍经历信息 -->
+    <delete id="deleteSchoolRecordById" parameterType="String">
+        DELETE FROM School WHERE id = #{id}
+    </delete>
+
+
+    <!-- 获取学籍经历的总数（用于分页） -->
+    <select id="countSchoolRecords" resultType="int">
+        SELECT COUNT(*) FROM School
+    </select>
+
+    <!-- 根据姓名模糊查询学籍经历信息 -->
+    <select id="searchSchoolRecordsByName" resultType="School">
+        SELECT * FROM School
+        WHERE name LIKE CONCAT('%', #{name}, '%')
+        ORDER BY id
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <update id="updateSchool" parameterType="School">
+        UPDATE School
+        SET name = #{name},
+            studentCode = #{studentCode},
+            primarySchool = #{primarySchool},
+            juniorHigh = #{juniorHigh},
+            seniorHigh = #{seniorHigh},
+            undergraduate = #{undergraduate},
+            graduate = #{graduate},
+            doctorate = #{doctorate}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

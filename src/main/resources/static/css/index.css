@@ -1,0 +1,206 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1200px;
+    min-height: 90vh;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+.main-content {
+    display: flex;
+}
+.sidebar {
+    width: 20%;
+    background: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+.sidebar ul li a:hover {
+    background: #ddd;
+}
+.content {
+    width: 75%;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.search-container input[type="text"],
+.search-container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+.search-container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.search-container button:hover {
+    background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #ccc;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background: #f4f4f4;
+}
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #007bff;
+}
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border: 1px solid #007bff;
+}
+/* 红框内输入框样式 */
+/* 输入框样式 */
+/* 输入框样式 */
+.input-field {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+    border-color: #a1c4fd;
+    box-shadow: 0 0 5px rgba(161, 196, 253, 0.5);
+    outline: none;
+}
+
+/* 特殊样式：缩小性别选择框的宽度 */
+input[name="sex"],
+select[name="sex"] {
+    width: 80px;
+}
+
+/* 按钮样式 */
+.submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-button:hover {
+    background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+}
+
+/* 搜索容器样式 */
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+/* 模态框背景 */
+.modal {
+    display: none; /* 初始状态为隐藏 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* 模态框内容 */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+/* 关闭按钮 */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 表单样式 */
+.modal-content input, .modal-content select, .modal-content button {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+

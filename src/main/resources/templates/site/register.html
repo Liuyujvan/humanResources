@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+
+        p {
+            text-align: center;
+        }
+
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>用户注册</h2>
+    <form th:action="@{/register}" method="post">
+        <div>
+            <input type="text" name="username" placeholder="输入用户姓名" required />
+        </div>
+        <div>
+            <input type="password" name="password" placeholder="输入密码" required />
+        </div>
+        <div>
+            <label >选择用户类型:</label>
+            <select name="type" required>
+                <option value="1">教师</option>
+                <option value="2">管理员</option>
+
+            </select>
+        </div>
+        <div>
+            <button type="submit">注册</button>
+        </div>
+    </form>
+    <p th:if="${error}">[[${error}]]</p>
+    <p>Already have an account? <a th:href="@{/login}">Login here</a>.</p>
+</div>
+</body>
+</html>

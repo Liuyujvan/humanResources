@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.nowcoder.humanresources.dao.AwardPunishmentMapper">
+
+    <select id="selectAwardPunishmentById" parameterType="String" resultType="AwardPunishment">
+        SELECT * FROM AwardPunishment WHERE id = #{id}
+    </select>
+    <select id="selectByName" parameterType="String" resultType="com.nowcoder.humanresources.entity.AwardPunishment">
+        SELECT * FROM AwardPunishment WHERE name LIKE CONCAT('%', #{name}, '%')
+    </select>
+
+    <insert id="insertAwardPunishment" parameterType="AwardPunishment">
+        INSERT INTO AwardPunishment (id, name, award, punishment, awardTime, punishmentTime)
+        VALUES (#{id}, #{name}, #{award}, #{punishment}, #{awardTime}, #{punishmentTime})
+    </insert>
+
+    <delete id="deleteAwardPunishmentById" parameterType="String">
+        DELETE FROM AwardPunishment WHERE id = #{id}
+    </delete>
+
+    <update id="updateAwardPunishment" parameterType="AwardPunishment">
+        UPDATE AwardPunishment
+        SET name = #{name}, award = #{award}, punishment = #{punishment},
+            awardTime = #{awardTime}, punishmentTime = #{punishmentTime}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getAllAwardPunishments" parameterType="map" resultType="AwardPunishment">
+        SELECT * FROM AwardPunishment
+                          LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="countAwardPunishments" resultType="int">
+        SELECT COUNT(*) FROM AwardPunishment
+    </select>
+
+</mapper>

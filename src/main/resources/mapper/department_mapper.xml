@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowcoder.humanresources.dao.DepartmentMapper">
+
+    <!-- 查询所有部门信息 -->
+    <select id="selectAllDepartments" resultType="Department">
+        SELECT * FROM department;
+    </select>
+
+    <!-- 根据ID查询部门 -->
+    <select id="selectDepartmentById" parameterType="String" resultType="Department">
+        SELECT * FROM department WHERE id = #{id};
+    </select>
+    <select id="selectDepartmentByName" parameterType="String" resultType="Department">
+        SELECT * FROM department WHERE name = #{name};
+    </select>
+
+    <!-- 添加部门信息 -->
+    <insert id="insertDepartment" parameterType="Department">
+        INSERT INTO department (id,name, number) VALUES (#{id},#{name}, #{number});
+    </insert>
+
+    <!-- 删除部门信息 -->
+    <delete id="deleteDepartmentById" parameterType="String">
+        DELETE FROM department WHERE id = #{id};
+    </delete>
+
+    <!-- 查询部门人数 -->
+    <!-- 查询部门人数 -->
+    <select id="selectNumberByDepartmentId" parameterType="String" resultType="int">
+        SELECT number FROM department WHERE id = #{id};
+    </select>
+
+    <select id="searchDepartmentsByName" parameterType="String" resultType="Department">
+        SELECT * FROM Department WHERE name LIKE CONCAT('%', #{departmentName}, '%')
+    </select>
+
+    <select id="countDepartments" resultType="int">
+        SELECT COUNT(*) FROM Department
+    </select>
+
+    <select id="getDepartments" resultType="Department">
+        SELECT * FROM Department  LIMIT #{limit} OFFSET #{offset}
+    </select>
+    <update id="updateDepartment" parameterType="Department">
+
+            UPDATE Department
+            SET id = #{id}, name = #{name}, number = #{number}
+            WHERE id = #{id}
+
+
+    </update>
+</mapper>

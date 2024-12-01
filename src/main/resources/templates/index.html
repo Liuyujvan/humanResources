@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师信息管理系统</title>
+    <!--    <link rel="stylesheet" th:href="@{/css/index.css}">-->
+    <style>
+        /* 样式设置 */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .main-content {
+            display: flex;
+        }
+        .sidebar {
+            width: 20%;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background: #ddd;
+        }
+        .content {
+            width: 75%;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-container input[type="text"],
+        .search-container select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-container button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        .pagination ul {
+            list-style-type: none; /* 去除列表样式 */
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination .page-item a {
+            text-decoration: none; /* 去除链接的下划线 */
+            color: #007bff; /* 设置链接的颜色 */
+        }
+
+        .pagination .page-item a:hover {
+            background-color: #f0f0f0; /* 设置鼠标悬停效果 */
+        }
+        /* 红框内输入框样式 */
+        /* 输入框样式 */
+        /* 输入框样式 */
+        .input-field {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: #a1c4fd;
+            box-shadow: 0 0 5px rgba(161, 196, 253, 0.5);
+            outline: none;
+        }
+
+        /* 特殊样式：缩小性别选择框的宽度 */
+        input[name="sex"],
+        select[name="sex"] {
+            width: 80px;
+        }
+
+        /* 按钮样式 */
+        .submit-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+
+        /* 搜索容器样式 */
+        .search-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        /* 模态框背景 */
+        .modal {
+            display: none; /* 初始状态为隐藏 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* 模态框内容 */
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* 表单样式 */
+        .modal-content input, .modal-content select, .modal-content button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>教师信息管理系统</h1>
+        <div class="user-info">
+            <span>Welcome, </span><span th:text="${loginUser.username}"></span>
+        </div>
+    </div>
+    <div class="main-content">
+
+        <div th:fragment="sider" class="sidebar">
+            <ul>
+                <li><a th:href="@{/index}">教师信息管理</a></li>
+                <li><a th:href="@{/department}" th:if="${type == 1}">职工部门信息管理</a></li>
+                <li><a th:href="@{/awardpunishment}" th:if="${type == 1}">奖惩信息管理</a></li>
+                <li><a th:href="@{/school}" th:if="${type == 1}">学籍经历管理</a></li>
+                <li><a th:href="@{/user}">用户管理</a></li>
+            </ul>
+        </div>
+
+
+        <div class="content">
+            <h2>教师信息管理</h2>
+
+            <!-- 信息提示 -->
+            <div th:if="${message}" th:text="${message}" style="color:green; margin-bottom: 10px;"></div>
+            <div th:if="${error}" th:text="${error}" style="color:red; margin-bottom: 10px;"></div>
+
+            <!-- 查询表单 -->
+            <form th:action="@{/teacher/search}" method="get" class="search-container">
+                <input type="text" name="query" placeholder="输入教师工号或者教师名称">
+                <button type="submit">搜索</button>
+            </form>
+
+
+            <!-- 添加教师按钮 -->
+            <button id="addTeacherBtn" class="submit-button" th:if="${type==1}">添加教师</button>
+
+            <!-- 添加教师信息的模态框 -->
+            <div id="addTeacherModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeModal">&times;</span>
+                    <h2>添加教师信息</h2>
+                    <form id="addTeacherForm" th:action="@{/teacher/add}" method="post">
+                        <input type="text" name="id" placeholder="工号" class="input-field" required>
+                        <input type="text" name="name" placeholder="姓名" class="input-field" required>
+                        <select name="sex" class="input-field" required>
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                        <input type="date" name="birthday" placeholder="出生日期" class="input-field">
+                        <input type="email" name="email" placeholder="电子邮件" class="input-field">
+                        <input type="text" name="title" placeholder="职称号" class="input-field">
+                        <input type="text" name="department" placeholder="所属部门" class="input-field">
+                        <button type="submit" class="submit-button">提交</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 教师列表 -->
+            <table>
+                <thead>
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>出生日期</th>
+                    <th>电子邮件</th>
+                    <th>职称号</th>
+                    <th>所属部门</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="teacher : ${teachers}">
+                    <td th:text="${teacher.id}"></td>
+                    <td th:text="${teacher.name}"></td>
+                    <td th:text="${teacher.sex}"></td>
+                    <td th:text="${#dates.format(teacher.birthday, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${teacher.email}"></td>
+                    <td th:text="${teacher.title}"></td>
+                    <td th:text="${teacher.department}"></td>
+                    <td>
+                        <a th:href="@{|/teacher/edit/${teacher.id}|}">编辑</a>
+                        <form th:action="@{|/teacher/delete/${teacher.id}|}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${teacher.id}">
+                            <button type="submit" th:if="${type==1}">删除</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- 分页 -->
+            <div class="pagination" th:fragment="pagination">
+                <nav class="pagination" th:if="${page.rows>0}" >
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item"><a class="page-link" th:href="@{${page.path} (current=1)}">首页</a></li>
+                        <li th:class="|page-item ${page.current==1 ? 'disabled':''}|"><a class="page-link" th:href="@{${page.path} (current=${page.current -1})}">上一页</a></li>
+                        <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.getFrom,page.getTo)}"><a class="page-link" href="#" th:text="${i}">1</a></li>
+
+                        <li th:class="|page-item ${page.current==page.total?'disabled':''}|"><a class="page-link" th:href="@{${page.path} (current=${page.current +1})}">下一页</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{${page.path} (current=${page.total})}">末页</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    // 获取元素
+    const addTeacherBtn = document.getElementById("addTeacherBtn");
+    const addTeacherModal = document.getElementById("addTeacherModal");
+    const closeModal = document.getElementById("closeModal");
+
+    // 点击“添加教师”按钮时显示模态框
+    addTeacherBtn.onclick = function() {
+        addTeacherModal.style.display = "block";
+    }
+
+    // 点击关闭按钮时隐藏模态框
+    closeModal.onclick = function() {
+        addTeacherModal.style.display = "none";
+    }
+
+    // 点击模态框外部时隐藏模态框
+    window.onclick = function(event) {
+        if (event.target == addTeacherModal) {
+            addTeacherModal.style.display = "none";
+        }
+    }
+
+</script>
+
+</html>

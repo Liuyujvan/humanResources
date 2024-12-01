@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowcoder.humanresources.dao.UserMapper">
+    <sql id="insertFields">
+        username,password,type
+    </sql>
+    <sql id="selectFields">
+        username,password,type
+    </sql>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE user
+        SET
+            password = #{password},
+            type = #{type}
+        WHERE username = #{username}
+    </update>
+
+    <select id="selectByName" resultType="User">
+        select <include refid="selectFields"></include> from user where username = #{username}
+    </select>
+    <insert id="insertUser" parameterType="User">
+        insert into User (<include refid="insertFields"></include>)
+        values (#{username},#{password},#{type})
+    </insert>
+    <update id="updatePassword">
+        update user set password= #{password} where username = #{username}
+    </update>
+</mapper>

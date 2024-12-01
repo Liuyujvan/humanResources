@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户管理</title>
+    <style>
+        /* 样式设置 */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h2 {
+            color: #333;
+            font-size: 24px;
+            margin: 0;
+        }
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+        }
+        .sidebar {
+            width: 20%;
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background: #ddd;
+        }
+        .content {
+            width: 75%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            width: 120px;
+            color: #555;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .input-field {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #a1c4fd;
+            box-shadow: 0 0 5px rgba(161, 196, 253, 0.5);
+            outline: none;
+        }
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+        .submit-button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+        .message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #f00;
+        }
+        .success-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>用户管理</h2>
+        <span>Welcome, </span><span th:text="${username}"></span>
+    </div>
+    <div class="main-content">
+        <div th:replace="index::sider" class="sidebar">
+        </div>
+        <div class="content">
+            <form th:action="@{/user/update}" th:object="${user}" method="post">
+                <div class="form-group">
+                    <label>用户名：</label>
+                    <input type="text" th:field="*{username}" class="input-field" readonly>
+                </div>
+                <div class="form-group">
+                    <label>旧密码：</label>
+                    <input type="password"  name="oldPassword" class="input-field" placeholder="请输入新密码">
+                </div>
+                <div class="form-group">
+                    <label>新密码：</label>
+                    <input type="password" name="newPassword" class="input-field" placeholder="请输入新密码">
+                </div>
+                <button type="submit" class="submit-button">保存修改</button>
+                <p class="message" th:if="${errorMessage != null}" th:text="${errorMessage}"></p>
+                <p class="message success-message" th:if="${successMessage != null}" th:text="${successMessage}"></p>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

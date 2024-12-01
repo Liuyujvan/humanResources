@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奖惩信息管理系统</title>
+    <style>
+        /* 样式设置 */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 90vh;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .main-content {
+            display: flex;
+        }
+        .sidebar {
+            width: 20%;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .sidebar ul li a:hover {
+            background: #ddd;
+        }
+        .content {
+            width: 75%;
+            padding: 20px;
+            border-radius: 10px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-container input[type="text"],
+        .search-container select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            flex-grow: 1;
+        }
+        .search-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .search-container button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination ul {
+            list-style-type: none; /* 去除列表样式 */
+            padding: 0;
+            margin: 0;
+        }
+
+        .pagination .page-item a {
+            text-decoration: none; /* 去除链接的下划线 */
+            color: #007bff; /* 设置链接的颜色 */
+        }
+
+        .pagination .page-item a:hover {
+            background-color: #f0f0f0; /* 设置鼠标悬停效果 */
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border: 1px solid #007bff;
+        }
+        .input-field {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #a1c4fd;
+            box-shadow: 0 0 5px rgba(161, 196, 253, 0.5);
+            outline: none;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .submit-button:hover {
+            background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>奖惩信息管理</h1>
+        <div class="user-info">
+            <span>Welcome, </span><span th:text="${username}"></span>
+        </div>
+    </div>
+    <div class="main-content">
+        <div th:replace="index::sider" class="sidebar">
+
+        </div>
+        <div class="content">
+            <!-- Search Form -->
+            <form th:action="@{/awardpunishment/search}" method="get" class="search-container">
+                <input type="text" name="query" placeholder="输入工号或姓名进行查询">
+                <button type="submit">搜索</button>
+            </form>
+
+            <!-- Add Award/Punishment Record Button -->
+            <button id="addAwardPunishmentBtn" class="submit-button">添加奖惩信息</button>
+
+            <!-- Add Award/Punishment Modal -->
+            <div id="addAwardPunishmentModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-btn" id="closeModal">&times;</span>
+                    <h2>添加奖惩信息</h2>
+                    <form id="addAwardPunishmentForm" th:action="@{/awardpunishment/add}" method="post">
+                        <input type="text" name="id" placeholder="编号" class="input-field" required>
+                        <input type="text" name="name" placeholder="姓名" class="input-field" required>
+                        <input type="text" name="award" placeholder="奖励" class="input-field">
+                        <input type="text" name="punishment" placeholder="惩罚" class="input-field">
+                        <input type="date" name="awardTime" placeholder="奖励时间" class="input-field">
+                        <input type="date" name="punishmentTime" placeholder="惩罚时间" class="input-field">
+                        <button type="submit" class="submit-button">提交</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Award/Punishment List Table -->
+            <table>
+                <thead>
+                <tr>
+                    <th>工号</th>
+                    <th>姓名</th>
+                    <th>奖励</th>
+                    <th>惩罚</th>
+                    <th>奖励时间</th>
+                    <th>惩罚时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="record : ${awardPunishments}">
+                    <td th:text="${record.id}"></td>
+                    <td th:text="${record.name}"></td>
+                    <td th:text="${record.award}"></td>
+                    <td th:text="${record.punishment}"></td>
+                    <td th:text="${record.awardTime}"></td>
+                    <td th:text="${record.punishmentTime}"></td>
+                    <td>
+                        <a th:href="@{|/awardpunishment/edit/${record.id}|}">编辑</a>
+                        <form th:action="@{|/awardpunishment/delete/${record.id}|}" method="post" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${record.id}">
+                            <button type="submit">删除</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <nav class="pagination" th:if="${page.rows>0}" th:fragment="pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><a class="page-link" th:href="@{${page.path} (current=1)}">首页</a></li>
+                    <li th:class="|page-item ${page.current==1 ? 'disabled':''}|"><a class="page-link" th:href="@{${page.path} (current=${page.current -1})}">上一页</a></li>
+                    <li th:class="|page-item ${i==page.current?'active':''}|" th:each="i:${#numbers.sequence(page.getFrom,page.getTo)}"><a class="page-link" href="#" th:text="${i}">1</a></li>
+
+                    <li th:class="|page-item ${page.current==page.total?'disabled':''}|"><a class="page-link" th:href="@{${page.path} (current=${page.current +1})}">下一页</a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{${page.path} (current=${page.total})}">末页</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<script>
+    // JavaScript for modal display
+    const addAwardPunishmentBtn = document.getElementById("addAwardPunishmentBtn");
+    const addAwardPunishmentModal = document.getElementById("addAwardPunishmentModal");
+    const closeModal = document.getElementById("closeModal");
+
+    addAwardPunishmentBtn.onclick = function() {
+        addAwardPunishmentModal.style.display = "block";
+    }
+
+    closeModal.onclick = function() {
+        addAwardPunishmentModal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target === addAwardPunishmentModal) {
+            addAwardPunishmentModal.style.display = "none";
+        }
+    }
+</script>
+</body>
+</html>

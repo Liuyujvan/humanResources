@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nowcoder.humanresources.dao.TeacherMapper">
+    <sql id="selectFields">
+        id,name,sex,email,birthday,title,department,awardPunishmentId,studentCode
+    </sql>
+    <sql id="insertFields">
+        id,name,sex,email,birthday,title,department,awardPunishmentId,studentCode
+    </sql>
+    <select id="selectTeacherById" resultType="Teacher">
+        select <include refid="selectFields"></include>
+            from teacher where id = #{id};
+    </select>
+    <select id="getTeacherByName" resultType="Teacher">
+        select <include refid="selectFields"></include>
+        from teacher where name = #{name};
+    </select>
+    <select id="selectTeacherByName" resultType="Teacher">
+        select <include refid="selectFields"></include>
+        from teacher where name= #{name};
+    </select>
+
+    <insert id="insertTeacher" parameterType="Teacher" keyProperty="id">
+        insert into Teacher (<include refid="insertFields"></include>)
+        values (#{id},#{name},#{sex},#{email},#{birthday},#{title},#{department},#{awardPunishmentId},#{studentCode})
+    </insert>
+
+    <select id="searchTeachers" resultType="Teacher">
+        SELECT * FROM Teacher
+        WHERE name LIKE CONCAT('%', #{keyword}, '%')
+           OR department LIKE CONCAT('%', #{keyword}, '%')
+           OR title LIKE CONCAT('%', #{keyword}, '%')
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <delete id="deleteTeacherById" parameterType="String">
+        DELETE FROM Teacher WHERE id = #{id}
+    </delete>
+    <update id="updateTeacher" parameterType="Teacher">
+        UPDATE Teacher
+        SET name = #{name}, sex = #{sex}, email = #{email}, birthday = #{birthday},
+            title = #{title}, department = #{department}, awardPunishmentId = #{awardPunishmentId}, studentCode = #{studentCode}
+        WHERE id = #{id}
+
+    </update>
+    <select id="getAllTeachers" resultType="Teacher">
+        SELECT * FROM Teacher
+             LIMIT #{limit} OFFSET #{offset}
+    </select>
+</mapper>
